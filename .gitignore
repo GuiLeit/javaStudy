@@ -1,0 +1,25 @@
+# Compiled class files
+bin/
+*.class
+
+# Package files
+*.jar
+*.war
+*.nar
+*.ear
+
+# IDE specific files
+.settings/
+.project
+.classpath
+.vscode/
+
+# Logs
+*.log
+
+# Maven
+target/
+
+# Gradle
+build/
+.gradle/
