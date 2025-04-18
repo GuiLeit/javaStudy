@@ -1,41 +1,24 @@
-import java.util.Arrays;
+import com.sun.net.httpserver.HttpServer;
 
-import Models.Clothing;
-import Models.Costumer;
+import Controllers.CostumerController;
+
+import java.net.InetSocketAddress;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        Costumer costumer = new Costumer("Costumer", "M");
-
-        try{
-            costumer.addClothing(new Clothing.Builder()
-                .description("Blue Jacket")
-                .price(20.9)
-                .size("M")
-                .build()
-            );
-
-            costumer.addClothing(new Clothing.Builder()
-                .description("A Orange T-shirt")
-                .price(10.5)
-                .size("S")
-                .build()
-            );
-        }catch (IllegalArgumentException e){
-            System.out.println("Error: " + e.getMessage());
-        }
-
-        costumer.getClothes().sort((a,b) -> {return a.compareTo(b);});
-
-        System.out.println("Clothes bought by " + costumer.getName() + ":");
-        for (Clothing clothing : costumer.getClothes()) {
-            if(!clothing.getSize().equals(costumer.getSize())){
-                System.out.println("Warning: " + clothing.getDescription() + " is not your size!");
-            }
-            System.out.println(clothing.toString());
-        }
-
-        System.out.println(costumer.getName() + " gonna pay: " + costumer.getWardrobePrice() + " with fee included");
-
-    }
+        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+        
+        server.createContext("/", (exchange -> {
+            String response = "Hello, World!";
+            exchange.sendResponseHeaders(200, 0);
+            exchange.getResponseHeaders().add("Content-Type", "text/plain");
+            exchange.getResponseBody().write(response.getBytes());
+            exchange.getResponseBody().close(); 
+        }));
+        server.createContext("/costumer", new CostumerController());
+        
+        server.setExecutor(null);
+        server.start();
+        System.out.println("Server started on port 8080");
+    }    
 }

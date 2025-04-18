@@ -68,7 +68,7 @@ public class Clothing implements Comparable<Clothing>{
 
     @Override
     public String toString() {
-        return "Clothing [description=" + description + ", price=" + price + ", size=" + size + "]";
+        return "Clothing [description= " + description + ", price= " + price + ", size= " + size + "]";
     }
 
     @Override
